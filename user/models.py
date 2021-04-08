@@ -7,7 +7,7 @@ from django.contrib.auth.models import (
 from django.core import signing
 from django.db import models
 
-from jijoo.utils import validate_ng_mobile_number, validate_state
+from jijoo.utils import TimeStampMixin, validate_ng_mobile_number, validate_state
 
 
 class UserManager(BaseUserManager):
@@ -18,6 +18,8 @@ class UserManager(BaseUserManager):
             ValueError("Firstname field is required")
         if not lastname:
             ValueError("Lastname field is required")
+        if not password:
+            ValueError("Password field is required")
 
         user = self.model(
             email=self.normalize_email(email),
@@ -43,7 +45,7 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin, TimeStampMixin):
     firstname = models.CharField(max_length=30)
     lastname = models.CharField(max_length=30)
     email = models.EmailField(
@@ -58,12 +60,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=20, blank=True, null=True, validators=[validate_ng_mobile_number]
     )
     city = models.CharField(max_length=30, blank=True, null=True)
-    state = models.CharField(max_length=30, blank=True, null=True, validators=[validate_state])
+    state = models.CharField(max_length=30, validators=[validate_state])
     is_seller = models.BooleanField(default=False)
     # we need to replace with is_staff
     is_admin = models.BooleanField(default=False)
-    created_at = models.DateField(auto_now_add=True)
-    updated_at = models.DateField(auto_now=True)
 
     # ensure this is objects and not object
     # else User.objects.all() won't work
