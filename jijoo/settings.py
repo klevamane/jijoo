@@ -132,6 +132,19 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "jijoo/static")]
+STATICFILES_STORAGE = "whitenoise.django.GzipManifestStaticFilesStorage"
+
+# This is the URL the user can go to and upload their files from the browser
+MEDIA_URL = "/media/"
+
+# Tells Django to store all the uploaded files in a folder called ’media’
+# created in the BASE_DIR, i.e., the project Directory
+# therefore we need to create a folder called media in the root
+# of this project, on the same level as manage.py
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -163,7 +176,7 @@ JWT_AUTH = {
     "JWT_VERIFY": True,
     "JWT_VERIFY_EXPIRATION": True,
     "JWT_LEEWAY": 0,
-    "JWT_EXPIRATION_DELTA": datetime.timedelta(seconds=300),
+    "JWT_EXPIRATION_DELTA": datetime.timedelta(hours=2),
     "JWT_AUDIENCE": None,
     "JWT_ISSUER": None,
     "JWT_ALLOW_REFRESH": False,
