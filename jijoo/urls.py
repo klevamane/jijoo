@@ -18,12 +18,14 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework_jwt.views import obtain_jwt_token
 
-from jijoo import settings
+from user.views import CreateUser
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("user/", include("user.urls")),
-    path("auth", obtain_jwt_token),
+    path("auth/login", obtain_jwt_token),
+    # move this from here
+    path("auth/signup", CreateUser.as_view()),
 ]
 
 # if settings.DEBUG:

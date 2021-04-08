@@ -6,5 +6,5 @@ from user import views
 
 urlpatterns = [
     # profile
-    path("create", views.ListCreateUsers.as_view(), name="signup"),
+    path("create", views.CreateUser.as_view(), name="signup"),
 ]
