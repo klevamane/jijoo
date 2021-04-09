@@ -61,14 +61,9 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStampMixin):
     )
     city = models.CharField(max_length=30, blank=True, null=True)
     state = models.CharField(max_length=30, validators=[validate_state])
-    is_seller = models.BooleanField(default=False)
-    # we need to replace with is_staff
+
     is_admin = models.BooleanField(default=False)
 
-    # ensure this is objects and not object
-    # else User.objects.all() won't work
-    # it has to be Model.objects.all()
-    # and most 3rd party packages depend on objects
     objects = UserManager()
 
     REQUIRED_FIELDS = ["firstname", "lastname", "password"]

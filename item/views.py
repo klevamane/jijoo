@@ -12,6 +12,17 @@ from item.serializers import (
 from jijoo.utils import IsOwner
 
 
+class ItemListView(generics.ListAPIView):
+    """
+    List Items posted by all sellers
+    this view is visible anyone
+    """
+
+    serializer_class = ItemListSerializer
+    permission_classes = [AllowAny]
+    queryset = Item.objects.exclude(is_sold=True).order_by("-created_at")
+
+
 class ItemListSellerView(generics.ListAPIView):
     """
     List Items posted by a particular seller
@@ -19,11 +30,10 @@ class ItemListSellerView(generics.ListAPIView):
     """
 
     serializer_class = ItemListSerializer
-    permission_classes = [IsAuthenticated]
     queryset = Item.objects.all()
 
     def list(self, request, *args, **kwargs):
-        items = Item.objects.filter(owner=self.request.user)
+        items = Item.objects.filter(owner=self.request.user).order_by("-created_at")
         serializer = self.serializer_class(items, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
