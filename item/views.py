@@ -4,6 +4,7 @@ from rest_framework.response import Response
 
 from item.models import Item
 from item.serializers import (
+    CreateInterestSerializer,
     ItemCreateSerializer,
     ItemListSerializer,
     ItemRetreiveSerializer,
@@ -37,4 +38,10 @@ class ItemDetailView(generics.RetrieveAPIView):
 class ItemDeleteView(generics.DestroyAPIView):
     serializer_class = ItemRetreiveSerializer
     permission_classes = [IsAuthenticated, IsOwner]
+    queryset = Item.objects.all()
+
+
+class InterestCreateView(generics.CreateAPIView):
+    serializer_class = CreateInterestSerializer
+    permission_classes = [IsAuthenticated]
     queryset = Item.objects.all()

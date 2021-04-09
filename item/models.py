@@ -1,6 +1,6 @@
 from django.db import models
 
-from jijoo.utils import TimeStampMixin
+from jijoo.utils import TimeStampMixin, validate_ng_mobile_number
 
 
 def upload_image(instance, filename):
@@ -22,9 +22,12 @@ class Item(TimeStampMixin):
 
 
 class Interest(TimeStampMixin):
-    user = models.ForeignKey(
-        "user.User", on_delete=models.CASCADE, related_name="interests"
-    )
     item = models.ForeignKey(
         "item.Item", on_delete=models.CASCADE, related_name="interests"
+    )
+    name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+    location = models.CharField(max_length=200)
+    mobile = models.CharField(
+        max_length=20, blank=True, null=True, validators=[validate_ng_mobile_number]
     )

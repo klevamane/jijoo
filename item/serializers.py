@@ -1,3 +1,4 @@
+from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 from item.models import Interest, Item
@@ -10,6 +11,9 @@ class ItemCreateSerializer(ModelSerializer):
         exclude = ["owner"]
 
     def create(self, validated_data):
+        import pdb
+
+        pdb.set_trace()
         return Item.objects.create(owner=self.context["request"].user, **validated_data)
 
 
@@ -22,7 +26,13 @@ class ItemListSerializer(ModelSerializer):
 class InterestSerializer(ModelSerializer):
     class Meta:
         model = Interest
-        fields = ["user"]
+        fields = ["name", "email", "location", "mobile"]
+
+
+class CreateInterestSerializer(ModelSerializer):
+    class Meta:
+        model = Interest
+        fields = ["id", "item", "name", "email", "location"]
 
 
 class ItemRetreiveSerializer(ModelSerializer):
