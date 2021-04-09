@@ -1,7 +1,6 @@
-from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from item.models import Item
+from item.models import Interest, Item
 
 
 class ItemCreateSerializer(ModelSerializer):
@@ -18,3 +17,17 @@ class ItemListSerializer(ModelSerializer):
     class Meta:
         model = Item
         fields = "__all__"
+
+
+class InterestSerializer(ModelSerializer):
+    class Meta:
+        model = Interest
+        fields = ["user"]
+
+
+class ItemRetreiveSerializer(ModelSerializer):
+    interests = InterestSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Item
+        fields = ["id", "name", "description", "price", "interests"]

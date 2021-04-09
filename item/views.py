@@ -1,9 +1,13 @@
 from rest_framework import generics, status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from item.models import Item
-from item.serializers import ItemCreateSerializer, ItemListSerializer
+from item.serializers import (
+    ItemCreateSerializer,
+    ItemListSerializer,
+    ItemRetreiveSerializer,
+)
 
 
 class ItemListView(generics.ListAPIView):
@@ -20,4 +24,10 @@ class ItemListView(generics.ListAPIView):
 class ItemCreateView(generics.CreateAPIView):
     serializer_class = ItemCreateSerializer
     permission_classes = [IsAuthenticated]
+    queryset = Item.objects.all()
+
+
+class ItemDetailView(generics.RetrieveAPIView):
+    serializer_class = ItemRetreiveSerializer
+    permission_classes = [AllowAny]
     queryset = Item.objects.all()

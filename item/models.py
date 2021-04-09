@@ -18,3 +18,12 @@ class Item(TimeStampMixin):
 
     def __str__(self):
         return "{}".format(self.name)
+
+
+class Interest(TimeStampMixin):
+    user = models.ForeignKey(
+        "user.User", on_delete=models.CASCADE, related_name="interests"
+    )
+    item = models.ForeignKey(
+        "item.Item", on_delete=models.CASCADE, related_name="interests"
+    )
