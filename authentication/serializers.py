@@ -14,5 +14,5 @@ class SignupSerializer(ModelSerializer):
         extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
-        # use this method so we can also has the user's password
+        # use this method so we can also hash the user's password
         return User.objects.create_user(**validated_data)
