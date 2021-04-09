@@ -14,6 +14,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+import django_heroku
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,7 +30,7 @@ load_dotenv(os.path.join(BASE_DIR, "", ".env"))
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", False)
 
 ALLOWED_HOSTS = []
 
@@ -185,3 +186,5 @@ JWT_AUTH = {
     "JWT_AUTH_HEADER_PREFIX": "Bearer",
     "JWT_AUTH_COOKIE": None,
 }
+
+django_heroku.settings(locals(), logging=False)
