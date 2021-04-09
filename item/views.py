@@ -8,6 +8,7 @@ from item.serializers import (
     ItemListSerializer,
     ItemRetreiveSerializer,
 )
+from jijoo.utils import IsOwner
 
 
 class ItemListView(generics.ListAPIView):
@@ -30,4 +31,10 @@ class ItemCreateView(generics.CreateAPIView):
 class ItemDetailView(generics.RetrieveAPIView):
     serializer_class = ItemRetreiveSerializer
     permission_classes = [AllowAny]
+    queryset = Item.objects.all()
+
+
+class ItemDeleteView(generics.DestroyAPIView):
+    serializer_class = ItemRetreiveSerializer
+    permission_classes = [IsAuthenticated, IsOwner]
     queryset = Item.objects.all()

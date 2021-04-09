@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from rest_framework.permissions import SAFE_METHODS, BasePermission
 
 NG_MOBILE_PREFIXES = {
     "mtn": [
@@ -101,3 +102,20 @@ class TimeStampMixin(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class IsOwner(BasePermission):
+    """
+    Object-level permission to only allow owners of an object to edit it.
+    Assumes the model instance has an `owner` attribute.
+    """
+
+    message = "You must be the owner in order to view or make changes"
+
+    def has_object_permission(self, request, view, obj):
+        # Read permissions are allowed to any request,
+        # so we'll always allow GET, HEAD or OPTIONS requests.
+        if request.method in SAFE_METHODS and obj.id == request.user.id:
+            return True
+
+        return obj.owner == request.user
