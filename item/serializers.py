@@ -11,9 +11,6 @@ class ItemCreateSerializer(ModelSerializer):
         exclude = ["owner"]
 
     def create(self, validated_data):
-        import pdb
-
-        pdb.set_trace()
         return Item.objects.create(owner=self.context["request"].user, **validated_data)
 
 

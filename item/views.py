@@ -12,7 +12,12 @@ from item.serializers import (
 from jijoo.utils import IsOwner
 
 
-class ItemListView(generics.ListAPIView):
+class ItemListSellerView(generics.ListAPIView):
+    """
+    List Items posted by a particular seller
+    this view is only visisble to the sell
+    """
+
     serializer_class = ItemListSerializer
     permission_classes = [IsAuthenticated]
     queryset = Item.objects.all()
@@ -24,6 +29,11 @@ class ItemListView(generics.ListAPIView):
 
 
 class ItemCreateView(generics.CreateAPIView):
+    """
+    A seller should able to post a new item
+    visible for everyone
+    """
+
     serializer_class = ItemCreateSerializer
     permission_classes = [IsAuthenticated]
     queryset = Item.objects.all()
@@ -36,12 +46,22 @@ class ItemDetailView(generics.RetrieveAPIView):
 
 
 class ItemDeleteView(generics.DestroyAPIView):
+    """
+    A seller should able to delete an item
+    posted by the seller
+    """
+
     serializer_class = ItemRetreiveSerializer
     permission_classes = [IsAuthenticated, IsOwner]
     queryset = Item.objects.all()
 
 
 class InterestCreateView(generics.CreateAPIView):
+    """
+    A buyer should able to indicate interest
+    for an item posted by a seller
+    """
+
     serializer_class = CreateInterestSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     queryset = Item.objects.all()

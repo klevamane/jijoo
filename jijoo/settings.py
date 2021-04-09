@@ -154,7 +154,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "user.User"
 
 REST_FRAMEWORK = {
-    # "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
         "rest_framework.authentication.SessionAuthentication",
@@ -176,7 +176,7 @@ JWT_AUTH = {
     "JWT_VERIFY": True,
     "JWT_VERIFY_EXPIRATION": True,
     "JWT_LEEWAY": 0,
-    "JWT_EXPIRATION_DELTA": datetime.timedelta(hours=2),
+    "JWT_EXPIRATION_DELTA": datetime.timedelta(hours=5),
     "JWT_AUDIENCE": None,
     "JWT_ISSUER": None,
     "JWT_ALLOW_REFRESH": False,
