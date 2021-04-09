@@ -8,10 +8,7 @@ class SignupSerializer(ModelSerializer):
         model = User
         read_only_fields = ("id", "is_admin", "last_login")
         exclude = [
-            "is_seller",
             "is_admin",
-            "groups",
-            "user_permissions",
             "is_superuser",
         ]
         extra_kwargs = {"password": {"write_only": True}}

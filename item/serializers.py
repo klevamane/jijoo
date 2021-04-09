@@ -1,4 +1,3 @@
-from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 from item.models import Interest, Item
@@ -23,13 +22,7 @@ class ItemListSerializer(ModelSerializer):
 class InterestSerializer(ModelSerializer):
     class Meta:
         model = Interest
-        fields = ["name", "email", "location", "mobile"]
-
-
-class CreateInterestSerializer(ModelSerializer):
-    class Meta:
-        model = Interest
-        fields = ["id", "item", "name", "email", "location"]
+        fields = ["id", "name", "item", "email", "location", "mobile"]
 
 
 class ItemRetreiveSerializer(ModelSerializer):

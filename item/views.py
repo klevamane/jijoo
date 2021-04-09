@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from item.models import Item
 from item.serializers import (
-    CreateInterestSerializer,
+    InterestSerializer,
     ItemCreateSerializer,
     ItemListSerializer,
     ItemRetreiveSerializer,
@@ -12,7 +12,7 @@ from item.serializers import (
 from jijoo.utils import IsOwner
 
 
-class ItemListView(generics.ListAPIView):
+class BuyerItemsListView(generics.ListAPIView):
     """
     List Items posted by all sellers
     this view is visible anyone
@@ -23,7 +23,7 @@ class ItemListView(generics.ListAPIView):
     queryset = Item.objects.exclude(is_sold=True).order_by("-created_at")
 
 
-class ItemListSellerView(generics.ListAPIView):
+class SellerItemsListView(generics.ListAPIView):
     """
     List Items posted by a particular seller
     this view is only visisble to the sell
@@ -38,7 +38,13 @@ class ItemListSellerView(generics.ListAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class ItemCreateView(generics.CreateAPIView):
+class SellerItemDetailsView(generics.RetrieveAPIView):
+    serializer_class = ItemRetreiveSerializer
+    permission_classes = [AllowAny]
+    queryset = Item.objects.all()
+
+
+class SellerItemCreateView(generics.CreateAPIView):
     """
     A seller should able to post a new item
     visible for everyone
@@ -49,13 +55,7 @@ class ItemCreateView(generics.CreateAPIView):
     queryset = Item.objects.all()
 
 
-class ItemDetailView(generics.RetrieveAPIView):
-    serializer_class = ItemRetreiveSerializer
-    permission_classes = [AllowAny]
-    queryset = Item.objects.all()
-
-
-class ItemDeleteView(generics.DestroyAPIView):
+class SellerItemDeleteView(generics.DestroyAPIView):
     """
     A seller should able to delete an item
     posted by the seller
@@ -66,12 +66,12 @@ class ItemDeleteView(generics.DestroyAPIView):
     queryset = Item.objects.all()
 
 
-class InterestCreateView(generics.CreateAPIView):
+class BuyerInterestCreateView(generics.CreateAPIView):
     """
     A buyer should able to indicate interest
     for an item posted by a seller
     """
 
-    serializer_class = CreateInterestSerializer
+    serializer_class = InterestSerializer
     permission_classes = [AllowAny]
     queryset = Item.objects.all()
